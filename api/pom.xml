@@ -24,6 +24,11 @@
             <groupId>com.kumuluz.ee</groupId>
             <artifactId>kumuluzee-jax-rs-jersey</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>com.fri</groupId>
+            <artifactId>webflix-services</artifactId>
+        </dependency>
     </dependencies>
 
     <build>
