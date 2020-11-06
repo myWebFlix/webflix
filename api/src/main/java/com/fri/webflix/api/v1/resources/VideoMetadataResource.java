@@ -39,4 +39,44 @@ public class VideoMetadataResource {
 		return Response.status(Response.Status.OK).entity(vme).build();
 	}
 
+	@POST
+	public Response createVideoMetadata(VideoMetadataEntity vme) {
+
+		if (vme.getTitle() == null) {
+			return Response.status(Response.Status.BAD_REQUEST).build();
+		} else {
+			vme = videoMetadataBean.createVideoMetadata(vme);
+		}
+
+		return Response.status(Response.Status.OK).entity(vme).build();
+
+	}
+
+	@PUT
+	@Path("{id}")
+	public Response putVideoMetadata(@PathParam("id") Integer id, VideoMetadataEntity vme) {
+
+		vme = videoMetadataBean.putVideoMetadata(id, vme);
+
+		if (vme == null) {
+			return Response.status(Response.Status.NOT_FOUND).build();
+		}
+
+		return Response.status(Response.Status.OK).entity(vme).build();
+
+	}
+
+	@DELETE
+	@Path("{id}")
+	public Response deleteVideoMetadata(@PathParam("id") Integer id) {
+
+		boolean deleted = videoMetadataBean.deleteVideoMetadata(id);
+
+		if (deleted) {
+			return Response.status(Response.Status.NO_CONTENT).build();
+		} else {
+			return Response.status(Response.Status.NOT_FOUND).build();
+		}
+	}
+
 }

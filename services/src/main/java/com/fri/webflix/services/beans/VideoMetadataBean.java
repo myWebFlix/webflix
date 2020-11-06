@@ -18,7 +18,6 @@ public class VideoMetadataBean {
 
 	public List<VideoMetadataEntity> getVideoMetadata(){
 
-		//Query query = em.createNamedQuery("VideoMetadataEntity.getAll", VideoMetadataEntity.class);
 		TypedQuery<VideoMetadataEntity> query = em.createNamedQuery("VideoMetadataEntity.getAll", VideoMetadataEntity.class);
 
 		return query.getResultList();
