@@ -9,7 +9,7 @@ kumuluzee:
       port: 8080
   datasources:
     - jndi-name: jdbc/VideoMetadataDS
-      connection-url: jdbc:postgresql://localhost:5432/video-metadata
+      connection-url: jdbc:postgresql://host.docker.internal:5432/video-metadata # localhost
       username: postgres
       password: postgres
       max-pool-size: 20
