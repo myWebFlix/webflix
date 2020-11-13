@@ -1,4 +1,9 @@
 kumuluzee:
+  config:
+    start-retry-delay-ms: 500
+    max-retry-delay-ms: 900000
+    etcd:
+      hosts: http://localhost:2379 #,http://192.168.99.101:2379,http://192.168.99.102:2379
   name: webflix-service
   env:
     name: dev
@@ -9,7 +14,9 @@ kumuluzee:
       port: 8080
   datasources:
     - jndi-name: jdbc/VideoMetadataDS
-      connection-url: jdbc:postgresql://host.docker.internal:5432/video-metadata # localhost
+      connection-url: jdbc:postgresql://localhost:5432/video-metadata
       username: postgres
       password: postgres
       max-pool-size: 20
+rest-config:
+  maintenance-mode: false

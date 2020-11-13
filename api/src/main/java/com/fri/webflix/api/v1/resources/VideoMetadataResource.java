@@ -2,6 +2,7 @@ package com.fri.webflix.api.v1.resources;
 
 import com.fri.webflix.models.entities.VideoMetadataEntity;
 import com.fri.webflix.services.beans.VideoMetadataBean;
+import com.fri.webflix.services.config.RestConfig;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -17,13 +18,20 @@ import java.util.List;
 public class VideoMetadataResource {
 
 	@Inject
+	private RestConfig restConfig;
+
+	@Inject
 	private VideoMetadataBean videoMetadataBean;
 
 	@GET
 	public Response getVideoMetadata() {
-		List<VideoMetadataEntity> vmes = videoMetadataBean.getVideoMetadata();
+		if (restConfig.getMaintenanceMode()) {
+			return Response.ok("Maintenance in progress.").build();
+		} else {
+			List<VideoMetadataEntity> vmes = videoMetadataBean.getVideoMetadata();
 
-		return Response.ok(vmes).build();
+			return Response.ok(vmes).build();
+		}
 	}
 
 	@GET
