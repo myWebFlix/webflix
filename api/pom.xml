@@ -29,6 +29,11 @@
             <groupId>com.fri</groupId>
             <artifactId>webflix-services</artifactId>
         </dependency>
+
+        <dependency>
+            <artifactId>kumuluzee-config-etcd</artifactId>
+            <groupId>com.kumuluz.ee.config</groupId>
+        </dependency>
     </dependencies>
 
     <build>
