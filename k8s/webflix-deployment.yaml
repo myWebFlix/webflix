@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webflix-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: webflix
+  template:
+    metadata:
+      labels:
+        app: webflix
+    spec:
+      containers:
+        - image: webflix/webflix:2020-11-19-04-49-32
+          name: webflix
+          env:
+            - name: KUMULUZEE_DATASOURCES0_CONNECTIONURL
+              valueFrom:
+                secretKeyRef:
+                  name: pg-db-google
+                  key: url
+            - name: KUMULUZEE_DATASOURCES0_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: pg-db-google
+                  key: username
+            - name: KUMULUZEE_DATASOURCES0_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: pg-db-google
+                  key: password
+          ports:
+            - containerPort: 8080
+              name: server
+              protocol: TCP
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: webflix
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 8080
+      protocol: TCP
+      targetPort: server
+  selector:
+    app: webflix
