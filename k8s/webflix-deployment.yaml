@@ -19,17 +19,17 @@ spec:
             - name: KUMULUZEE_DATASOURCES0_CONNECTIONURL
               valueFrom:
                 secretKeyRef:
-                  name: pg-db-google
-                  key: url
+                  name: kubernetes-postgres-connect
+                  key: database_url
             - name: KUMULUZEE_DATASOURCES0_USERNAME
               valueFrom:
                 secretKeyRef:
-                  name: pg-db-google
-                  key: username
+                  name: kubernetes-postgres-connect
+                  key: user
             - name: KUMULUZEE_DATASOURCES0_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: pg-db-google
+                  name: kubernetes-postgres-connect
                   key: password
           ports:
             - containerPort: 8080
