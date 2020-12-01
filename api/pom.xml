@@ -34,6 +34,11 @@
             <artifactId>kumuluzee-config-etcd</artifactId>
             <groupId>com.kumuluz.ee.config</groupId>
         </dependency>
+
+        <dependency>
+            <groupId>com.kumuluz.ee.health</groupId>
+            <artifactId>kumuluzee-health</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

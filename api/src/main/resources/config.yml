@@ -14,9 +14,17 @@ kumuluzee:
       port: 8080
   datasources:
     - jndi-name: jdbc/VideoMetadataDS
-      connection-url: jdbc:postgresql://localhost:5432/video-metadata
+      connection-url: jdbc:postgresql://localhost:5432/video-metadata # jdbc:postgresql://34.89.177.84:5432/webflix-database
       username: postgres
-      password: postgres
+      password: postgres # FPChtPMCl5K1MowA
       max-pool-size: 20
+  health:
+    checks:
+      data-source-health-check:
+        type: liveness
+        jndi-name: jdbc/VideoMetadataDS
+  #      etcd-health-check:
+  #        type: liveness
+  #        connection-url: http://localhost:2379/health
 rest-config:
   maintenance-mode: false
