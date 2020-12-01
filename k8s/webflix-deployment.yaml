@@ -35,6 +35,7 @@ spec:
             - containerPort: 8080
               name: server
               protocol: TCP
+
 ---
 
 apiVersion: v1
