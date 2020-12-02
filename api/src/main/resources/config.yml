@@ -36,3 +36,4 @@ kumuluzee:
       mapping: /metrics
 rest-config:
   maintenance-mode: false
+  broken: false
