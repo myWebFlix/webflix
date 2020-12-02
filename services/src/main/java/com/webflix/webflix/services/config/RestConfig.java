@@ -1,4 +1,4 @@
-package com.fri.webflix.services.config;
+package com.webflix.webflix.services.config;
 
 import com.kumuluz.ee.configuration.cdi.ConfigBundle;
 import com.kumuluz.ee.configuration.cdi.ConfigValue;

@@ -1,4 +1,4 @@
-package com.fri.webflix.models.entities;
+package com.webflix.webflix.models.entities;
 
 import javax.persistence.*;
 

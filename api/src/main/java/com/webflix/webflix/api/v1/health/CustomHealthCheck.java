@@ -1,9 +1,9 @@
-package com.fri.webflix.api.v1.health;
+package com.webflix.webflix.api.v1.health;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
-import com.fri.webflix.services.config.RestConfig;
+import com.webflix.webflix.services.config.RestConfig;
 import org.eclipse.microprofile.health.HealthCheck;
 import org.eclipse.microprofile.health.HealthCheckResponse;
 import org.eclipse.microprofile.health.Liveness;

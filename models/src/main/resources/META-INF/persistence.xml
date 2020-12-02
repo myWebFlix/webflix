@@ -3,7 +3,7 @@
     <persistence-unit name="webflix-jpa" transaction-type="RESOURCE_LOCAL">
         <non-jta-data-source>jdbc/VideoMetadataDS</non-jta-data-source>
 
-        <class>com.fri.webflix.models.entities.VideoMetadataEntity</class>
+        <class>com.webflix.webflix.models.entities.VideoMetadataEntity</class>
 
         <properties>
             <property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>

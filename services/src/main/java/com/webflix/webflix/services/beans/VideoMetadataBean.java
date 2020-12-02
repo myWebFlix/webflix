@@ -1,11 +1,10 @@
-package com.fri.webflix.services.beans;
+package com.webflix.webflix.services.beans;
 
-import com.fri.webflix.models.entities.VideoMetadataEntity;
+import com.webflix.webflix.models.entities.VideoMetadataEntity;
 
 import javax.enterprise.context.RequestScoped;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.ws.rs.NotFoundException;
 import java.util.List;

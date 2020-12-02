@@ -1,7 +1,6 @@
-package com.fri.webflix.api.v1.resources;
+package com.webflix.webflix.api.v1.resources;
 
-import com.fri.webflix.models.entities.VideoMetadataEntity;
-import com.fri.webflix.services.config.RestConfig;
+import com.webflix.webflix.services.config.RestConfig;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
