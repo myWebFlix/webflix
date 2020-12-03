@@ -3,7 +3,7 @@
 ## Database
 
 ```bash
-docker run -d --name pg-video-metadata -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=video-metadata -p 5432:5432 postgres:13
+docker run -d --name pg-webflix -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=webflix -p 5432:5432 postgres:13
 ```
 
 ## App
@@ -18,8 +18,8 @@ Using Docker network:
 
 ```bash
 docker network create webflix
-docker run -d --name pg-video-metadata -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=video-metadata -p 5432:5432 --network webflix postgres:13
-docker run -d -p 8080:8080 --network webflix -e KUMULUZEE_DATASOURCES0_CONNECTIONURL=jdbc:postgresql://pg-video-metadata:5432/video-metadata webflix
+docker run -d --name pg-webflix -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=webflix -p 5432:5432 --network webflix postgres:13
+docker run -d -p 8080:8080 --network webflix -e KUMULUZEE_DATASOURCES0_CONNECTIONURL=jdbc:postgresql://pg-webflix:5432/webflix webflix
 ```
 
 ## etcd
