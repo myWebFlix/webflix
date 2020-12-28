@@ -24,6 +24,11 @@
         </dependency>
 
         <dependency>
+            <groupId>com.kumuluz.ee.fault.tolerance</groupId>
+            <artifactId>kumuluzee-fault-tolerance-smallrye</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>com.webflix</groupId>
             <artifactId>webflix-models</artifactId>
         </dependency>

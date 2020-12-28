@@ -13,7 +13,7 @@ spec:
         app: webflix
     spec:
       containers:
-        - image: webflix/webflix:2020-12-03-10-29-56
+        - image: webflix/webflix:2020-12-04-00-59-47
           name: webflix
           env:
             - name: KUMULUZEE_DATASOURCES0_CONNECTIONURL
@@ -55,7 +55,7 @@ kind: Service
 metadata:
   name: webflix
 spec:
-  type: LoadBalancer
+  type: ClusterIP
   ports:
     - port: 8080
       protocol: TCP

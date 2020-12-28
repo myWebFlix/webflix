@@ -1,19 +1,47 @@
 package com.webflix.webflix.services.beans;
 
 import com.webflix.webflix.models.entities.VideoMetadataEntity;
+import org.eclipse.microprofile.faulttolerance.CircuitBreaker;
+import org.eclipse.microprofile.faulttolerance.Fallback;
+import org.eclipse.microprofile.faulttolerance.Retry;
+import org.eclipse.microprofile.faulttolerance.Timeout;
 
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
+import javax.ws.rs.InternalServerErrorException;
 import javax.ws.rs.NotFoundException;
+import javax.ws.rs.ProcessingException;
+import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.core.GenericType;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
+import java.util.logging.Logger;
 
 @RequestScoped
 public class VideoMetadataBean {
 
+	private Logger log = Logger.getLogger(VideoMetadataBean.class.getName());
+
+	@Inject
+	private VideoMetadataBean videoMetadataBeanProxy;
+
 	@PersistenceContext(unitName = "webflix-jpa")
 	private EntityManager em;
+
+	private Client httpClient;
+	private String baseUrl;
+
+	@PostConstruct
+	private void init() {
+		httpClient = ClientBuilder.newClient();
+		baseUrl = "http://localhost:8081";
+	}
 
 	public List<VideoMetadataEntity> getVideoMetadata(){
 
@@ -29,6 +57,8 @@ public class VideoMetadataBean {
 		if (vme == null) {
 			throw new NotFoundException();
 		}
+
+		videoMetadataBeanProxy.getRating(id); // For testing
 
 		return vme;
 	}
@@ -86,6 +116,31 @@ public class VideoMetadataBean {
 			return false;
 
 		return true;
+	}
+
+	@Retry
+	@Timeout(value = 2, unit = ChronoUnit.SECONDS)
+	@CircuitBreaker(requestVolumeThreshold = 3)
+	@Fallback(fallbackMethod = "getRatingFallback")
+	public Integer getRating(Integer videoId) {
+
+		log.info("Calling feedback service: getting rating.");
+
+		try {
+			return httpClient
+					.target(baseUrl + "/v1/feedback/rating")
+					.queryParam("videoId", videoId)
+					.request().get(new GenericType<Integer>() {
+					});
+		}
+		catch (WebApplicationException | ProcessingException e) {
+			log.severe(e.getMessage());
+			throw new InternalServerErrorException(e);
+		}
+	}
+
+	public Integer getRatingFallback(Integer videoId) {
+		return null;
 	}
 
 	// Transactions
