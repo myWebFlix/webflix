@@ -1,2 +1,2 @@
-INSERT INTO video_metadata (title) VALUES ('First video');
-INSERT INTO video_metadata (title) VALUES ('Second video');
+INSERT INTO video_metadata (title, description) VALUES ('First video', 'First desc');
+INSERT INTO video_metadata (title, description) VALUES ('Second video', 'Second desc');

@@ -58,7 +58,7 @@ public class VideoMetadataBean {
 			throw new NotFoundException();
 		}
 
-		videoMetadataBeanProxy.getRating(id); // For testing
+		// videoMetadataBeanProxy.getRating(id); // For testing
 
 		return vme;
 	}

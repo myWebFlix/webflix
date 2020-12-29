@@ -44,56 +44,56 @@ public class VideoMetadataResource {
 	private VideoMetadataBean videoMetadataBean;
 
 	@GET
-	public Response getVideoMetadata(@HeaderParam("ID-Token") String idTokenString) {
+	public Response getVideoMetadata() {
 		if (restConfig.getMaintenanceMode()) {
 			return Response.ok("Maintenance in progress.").build();
 		} else {
 			List<VideoMetadataEntity> vmes = videoMetadataBean.getVideoMetadata();
 
-			String CLIENT_ID = "304157826665-k1nt1phqk7qgsgk5m2hh6hlfkof6g5oe.apps.googleusercontent.com";
-
-			HttpTransport transport = new NetHttpTransport();
-			JsonFactory jsonFactory = new JacksonFactory();
-
-			GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(transport, jsonFactory)
-					// Specify the CLIENT_ID of the app that accesses the backend:
-					.setAudience(Collections.singletonList(CLIENT_ID))
-					// Or, if multiple clients access the backend:
-					//.setAudience(Arrays.asList(CLIENT_ID_1, CLIENT_ID_2, CLIENT_ID_3))
-					.build();
-
-			System.out.println(idTokenString);
-
-			GoogleIdToken idToken = null;
-			try {
-				idToken = verifier.verify(idTokenString);
-			} catch (Exception e) {}
-
-			if (idToken != null) {
-				Payload payload = idToken.getPayload();
-
-				// Print user identifier
-				String userId = payload.getSubject();
-				System.out.println("User ID: " + userId);
-
-				return Response.ok(vmes).build();
-			} else {
-				return Response.status(Response.Status.UNAUTHORIZED).build();
-			}
+			return Response.ok(vmes).build();
 		}
 	}
 
 	@GET
 	@Path("/{id}")
-	public Response getVideoMetadata(@PathParam("id") Integer id) {
+	public Response getVideoMetadata(@PathParam("id") Integer id, @HeaderParam("ID-Token") String idTokenString) {
 
-		VideoMetadataEntity vme = videoMetadataBean.getVideoMetadata(id);
+		String CLIENT_ID = "304157826665-k1nt1phqk7qgsgk5m2hh6hlfkof6g5oe.apps.googleusercontent.com";
 
-		if (vme == null) {
-			return Response.status(Response.Status.NOT_FOUND).build();
+		HttpTransport transport = new NetHttpTransport();
+		JsonFactory jsonFactory = new JacksonFactory();
+
+		GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(transport, jsonFactory)
+				// Specify the CLIENT_ID of the app that accesses the backend:
+				.setAudience(Collections.singletonList(CLIENT_ID))
+				// Or, if multiple clients access the backend:
+				//.setAudience(Arrays.asList(CLIENT_ID_1, CLIENT_ID_2, CLIENT_ID_3))
+				.build();
+
+		System.out.println(idTokenString);
+
+		GoogleIdToken idToken = null;
+		try {
+			idToken = verifier.verify(idTokenString);
+		} catch (Exception e) {}
+
+		if (idToken != null) {
+			Payload payload = idToken.getPayload();
+
+			// Print user identifier
+			String userId = payload.getSubject();
+			System.out.println("User ID: " + userId);
+
+			VideoMetadataEntity vme = videoMetadataBean.getVideoMetadata(id);
+
+			if (vme == null) {
+				return Response.status(Response.Status.NOT_FOUND).build();
+			} else {
+				return Response.status(Response.Status.OK).entity(vme).build();
+			}
+		} else {
+			return Response.status(Response.Status.UNAUTHORIZED).build();
 		}
-
-		return Response.status(Response.Status.OK).entity(vme).build();
 	}
 
 	@POST
