@@ -1,6 +1,17 @@
 package com.webflix.webflix.services.beans;
 
+import com.google.api.client.json.JsonFactory;
+import com.google.api.client.http.HttpTransport;
+import com.google.api.client.http.javanet.NetHttpTransport;
+import com.google.api.client.json.jackson2.JacksonFactory;
 import com.webflix.webflix.models.entities.VideoMetadataEntity;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpUriRequest;
+import org.apache.http.client.methods.RequestBuilder;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.util.EntityUtils;
 import org.eclipse.microprofile.faulttolerance.CircuitBreaker;
 import org.eclipse.microprofile.faulttolerance.Fallback;
 import org.eclipse.microprofile.faulttolerance.Retry;
@@ -19,9 +30,16 @@ import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.core.GenericType;
+import javax.ws.rs.core.HttpHeaders;
+import javax.ws.rs.core.Response;
 import java.time.temporal.ChronoUnit;
+import java.util.Collections;
 import java.util.List;
 import java.util.logging.Logger;
+
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken.Payload;
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
 
 @RequestScoped
 public class VideoMetadataBean {
@@ -40,7 +58,37 @@ public class VideoMetadataBean {
 	@PostConstruct
 	private void init() {
 		httpClient = ClientBuilder.newClient();
-		baseUrl = "http://localhost:8081";
+		baseUrl = "http://localhost:8090";
+	}
+
+	public String manageUser(String idTokenString) {
+		HttpResponse userAuthResponse = null;
+
+		try {
+			HttpClient client = HttpClients.custom().build();
+			HttpUriRequest request = RequestBuilder.get()
+					.setUri(baseUrl + "/v1/user")
+					.setHeader("ID-Token", idTokenString)
+					.build();
+			userAuthResponse = client.execute(request);
+
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+
+		if (userAuthResponse != null && userAuthResponse.getStatusLine().getStatusCode() == 200) {
+
+			try {
+				HttpEntity entity = userAuthResponse.getEntity();
+				String userId = EntityUtils.toString(entity);
+				System.out.println("User ID: " + userId);
+
+				return userId;
+			} catch (Exception e) {
+				System.out.println(e);
+			}
+		}
+		return null;
 	}
 
 	public List<VideoMetadataEntity> getVideoMetadata(){

@@ -1,10 +1,5 @@
 package com.webflix.webflix.api.v1.resources;
 
-import com.google.api.client.http.HttpTransport;
-import com.google.api.client.http.LowLevelHttpRequest;
-import com.google.api.client.http.javanet.NetHttpTransport;
-import com.google.api.client.json.JsonFactory;
-import com.google.api.client.json.jackson2.JacksonFactory;
 import com.kumuluz.ee.cors.annotations.CrossOrigin;
 import com.kumuluz.ee.logs.cdi.Log;
 import com.webflix.webflix.models.entities.VideoMetadataEntity;
@@ -15,16 +10,9 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.NewCookie;
 import javax.ws.rs.core.Response;
-import java.io.IOException;
-import java.util.Collections;
 import java.util.List;
 import java.util.logging.Logger;
-
-import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
-import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken.Payload;
-import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
 
 
 @Log
@@ -44,55 +32,26 @@ public class VideoMetadataResource {
 	private VideoMetadataBean videoMetadataBean;
 
 	@GET
-	public Response getVideoMetadata() {
+	public Response getVideoMetadata(@HeaderParam("ID-Token") String idTokenString) {
 		if (restConfig.getMaintenanceMode()) {
 			return Response.ok("Maintenance in progress.").build();
 		} else {
-			List<VideoMetadataEntity> vmes = videoMetadataBean.getVideoMetadata();
 
-			return Response.ok(vmes).build();
-		}
-	}
+			String userId = videoMetadataBean.manageUser(idTokenString);
 
-	@GET
-	@Path("/{id}")
-	public Response getVideoMetadata(@PathParam("id") Integer id, @HeaderParam("ID-Token") String idTokenString) {
+			if (userId != null) {
 
-		String CLIENT_ID = "304157826665-k1nt1phqk7qgsgk5m2hh6hlfkof6g5oe.apps.googleusercontent.com";
+				List<VideoMetadataEntity> vmes = videoMetadataBean.getVideoMetadata();
 
-		HttpTransport transport = new NetHttpTransport();
-		JsonFactory jsonFactory = new JacksonFactory();
+				System.out.println("User ID: " + userId);
 
-		GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(transport, jsonFactory)
-				// Specify the CLIENT_ID of the app that accesses the backend:
-				.setAudience(Collections.singletonList(CLIENT_ID))
-				// Or, if multiple clients access the backend:
-				//.setAudience(Arrays.asList(CLIENT_ID_1, CLIENT_ID_2, CLIENT_ID_3))
-				.build();
+				return Response.ok(vmes).build();
 
-		System.out.println(idTokenString);
-
-		GoogleIdToken idToken = null;
-		try {
-			idToken = verifier.verify(idTokenString);
-		} catch (Exception e) {}
-
-		if (idToken != null) {
-			Payload payload = idToken.getPayload();
-
-			// Print user identifier
-			String userId = payload.getSubject();
-			System.out.println("User ID: " + userId);
-
-			VideoMetadataEntity vme = videoMetadataBean.getVideoMetadata(id);
-
-			if (vme == null) {
-				return Response.status(Response.Status.NOT_FOUND).build();
 			} else {
-				return Response.status(Response.Status.OK).entity(vme).build();
+
+				return Response.status(Response.Status.UNAUTHORIZED).build();
+
 			}
-		} else {
-			return Response.status(Response.Status.UNAUTHORIZED).build();
 		}
 	}
 
