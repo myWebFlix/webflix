@@ -55,6 +55,20 @@ public class VideoMetadataResource {
 		}
 	}
 
+	@GET
+	@Path("/{videoMetadataId}")
+	public Response getVideoMetadata(@PathParam("videoMetadataId") Integer videoMetadataId) {
+
+		VideoMetadataEntity vme = videoMetadataBean.getVideoMetadata(videoMetadataId);
+
+		if (vme == null) {
+			return Response.status(Response.Status.BAD_REQUEST).build();
+		}
+
+		return Response.status(Response.Status.OK).entity(vme).build();
+
+	}
+
 	@POST
 	public Response createVideoMetadata(VideoMetadataEntity vme) {
 
