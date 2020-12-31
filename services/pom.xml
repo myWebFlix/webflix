@@ -29,13 +29,13 @@
         </dependency>
 
         <dependency>
-            <groupId>com.webflix</groupId>
-            <artifactId>webflix-models</artifactId>
+            <groupId>com.google.api-client</groupId>
+            <artifactId>google-api-client</artifactId>
         </dependency>
 
         <dependency>
-            <groupId>com.google.api-client</groupId>
-            <artifactId>google-api-client</artifactId>
+            <groupId>com.webflix</groupId>
+            <artifactId>webflix-models</artifactId>
         </dependency>
     </dependencies>
 </project>

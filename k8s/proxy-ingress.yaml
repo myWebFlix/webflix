@@ -23,3 +23,15 @@ spec:
             backend:
               serviceName: video-upload
               servicePort: 8080
+          - path: /users/(.*)
+            backend:
+              serviceName: users
+              servicePort: 8080
+          - path: /comments/(.*)
+            backend:
+              serviceName: comments
+              servicePort: 8080
+          - path: /ratings/(.*)
+            backend:
+              serviceName: ratings
+              servicePort: 8080
