@@ -31,3 +31,7 @@ spec:
             backend:
               serviceName: comments
               servicePort: 8080
+          - path: /ratings/(.*)
+            backend:
+              serviceName: ratings
+              servicePort: 8080
