@@ -1,7 +1,7 @@
 apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
 metadata:
-  name: proxy-ingress
+  name: webflix-ingress
   annotations:
     kubernetes.io/ingress.class: nginx
     nginx.ingress.kubernetes.io/ssl-redirect: "false"
@@ -22,4 +22,12 @@ spec:
           - path: /video-upload/(.*)
             backend:
               serviceName: video-upload
+              servicePort: 8080
+          - path: /users/(.*)
+            backend:
+              serviceName: users
+              servicePort: 8080
+          - path: /comments/(.*)
+            backend:
+              serviceName: comments
               servicePort: 8080

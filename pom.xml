@@ -87,7 +87,6 @@
                 <version>${google-api-client.version}</version>
             </dependency>
 
-
             <dependency>
                 <groupId>org.postgresql</groupId>
                 <artifactId>postgresql</artifactId>
@@ -99,11 +98,13 @@
                 <artifactId>webflix-api</artifactId>
                 <version>${project.version}</version>
             </dependency>
+
             <dependency>
                 <groupId>com.webflix</groupId>
                 <artifactId>webflix-models</artifactId>
                 <version>${project.version}</version>
             </dependency>
+
             <dependency>
                 <groupId>com.webflix</groupId>
                 <artifactId>webflix-services</artifactId>
