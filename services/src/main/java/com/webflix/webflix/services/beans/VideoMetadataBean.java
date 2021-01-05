@@ -59,7 +59,7 @@ public class VideoMetadataBean {
 	@PostConstruct
 	private void init() {
 		httpClient = ClientBuilder.newClient();
-		baseUsersUrl = "http://martin.zoxxnet.com"; // "http://localhost:8090";
+		baseUsersUrl = "http://users:8080"; // "http://martin.zoxxnet.com"; // "http://localhost:8090";
 		baseUrl = "http://localhost:8090";
 	}
 
@@ -69,7 +69,7 @@ public class VideoMetadataBean {
 		try {
 			HttpClient client = HttpClients.custom().build();
 			HttpUriRequest request = RequestBuilder.get()
-					.setUri(baseUsersUrl + "/users/v1/user") //.setUri(baseUrl + "/v1/user")
+					.setUri("http://users:8080/v1/auth") //.setUri(baseUrl + "/v1/user")
 					.setHeader("ID-Token", idTokenString)
 					.build();
 			userAuthResponse = client.execute(request);
