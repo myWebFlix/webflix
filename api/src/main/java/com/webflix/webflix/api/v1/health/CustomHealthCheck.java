@@ -17,12 +17,12 @@ public class CustomHealthCheck implements HealthCheck {
 
     @Override
     public HealthCheckResponse call() {
-//        if (restConfig.getBroken()) {
-//            return HealthCheckResponse.down(CustomHealthCheck.class.getSimpleName());
-//        } else {
-//            return HealthCheckResponse.up(CustomHealthCheck.class.getSimpleName());
-//        }
+        if (restConfig.getBroken()) {
+            return HealthCheckResponse.down(CustomHealthCheck.class.getSimpleName());
+        } else {
+            return HealthCheckResponse.up(CustomHealthCheck.class.getSimpleName());
+        }
         // Teporarily disable this health check for demo purposes
-        return HealthCheckResponse.up(CustomHealthCheck.class.getSimpleName());
+        // return HealthCheckResponse.up(CustomHealthCheck.class.getSimpleName());
     }
 }

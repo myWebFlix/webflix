@@ -12,6 +12,7 @@ public class RestConfig {
 	@ConfigValue(watch = true)
 	private boolean maintenanceMode;
 
+	@ConfigValue(watch = true)
 	private boolean broken;
 
 	public boolean getMaintenanceMode() {

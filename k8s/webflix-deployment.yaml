@@ -13,7 +13,7 @@ spec:
         app: webflix
     spec:
       containers:
-        - image: webflix/webflix:2021-01-06-05-57-34
+        - image: webflix/webflix:2021-01-07-04-53-13
           name: webflix
           env:
             - name: KUMULUZEE_DATASOURCES0_CONNECTIONURL

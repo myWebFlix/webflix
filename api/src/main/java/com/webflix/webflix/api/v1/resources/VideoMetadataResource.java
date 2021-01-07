@@ -33,25 +33,21 @@ public class VideoMetadataResource {
 
 	@GET
 	public Response getVideoMetadata(@HeaderParam("ID-Token") String idTokenString) {
-		if (restConfig.getMaintenanceMode()) {
-			return Response.ok("Maintenance in progress.").build();
+
+		String userId = videoMetadataBean.manageUser(idTokenString);
+
+		if (userId != null) {
+
+			List<VideoMetadataEntity> vmes = videoMetadataBean.getVideoMetadata();
+
+			System.out.println("User ID: " + userId);
+
+			return Response.ok(vmes).build();
+
 		} else {
 
-			String userId = videoMetadataBean.manageUser(idTokenString);
+			return Response.status(Response.Status.UNAUTHORIZED).build();
 
-			if (userId != null) {
-
-				List<VideoMetadataEntity> vmes = videoMetadataBean.getVideoMetadata();
-
-				System.out.println("User ID: " + userId);
-
-				return Response.ok(vmes).build();
-
-			} else {
-
-				return Response.status(Response.Status.UNAUTHORIZED).build();
-
-			}
 		}
 	}
 
