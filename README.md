@@ -61,6 +61,11 @@ kubectl delete pod MY_POD
 
 ## Logging 
 
+Query examples:
+
 ```
 marker.name: ENTRY or marker.name: EXIT
+contextMap.logTracerUuid: LOG_TRACER_UUID and (marker.name: ENTRY or marker.name: EXIT)
+contextMap.method: getVideoMetadata and marker.name: ENTRY
+contextMap.applicationName: webflix and marker.name: ENTRY
 ```
