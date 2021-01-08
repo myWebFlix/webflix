@@ -31,6 +31,8 @@ kumuluzee:
       - name: videos-endpoint
         url-pattern: /v1/videos/*
         status-codes: "200, 500"
+    get_video_metadata_counter:
+      - name: videos-metadata-requests-counter
     servlet:
       enabled: true
       mapping: /metrics

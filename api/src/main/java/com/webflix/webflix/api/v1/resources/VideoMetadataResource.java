@@ -5,6 +5,7 @@ import com.kumuluz.ee.logs.cdi.Log;
 import com.webflix.webflix.models.entities.VideoMetadataEntity;
 import com.webflix.webflix.services.beans.VideoMetadataBean;
 import com.webflix.webflix.services.config.RestConfig;
+import org.eclipse.microprofile.metrics.annotation.Counted;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -32,6 +33,7 @@ public class VideoMetadataResource {
 	private VideoMetadataBean videoMetadataBean;
 
 	@GET
+	@Counted(name = "get_video_metadata_counter")
 	public Response getVideoMetadata(@HeaderParam("ID-Token") String idTokenString) {
 
 		String userId = videoMetadataBean.manageUser(idTokenString);
