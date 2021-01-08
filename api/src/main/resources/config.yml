@@ -54,16 +54,6 @@ kumuluzee:
                           </Root>
                       </Loggers>
                   </Configuration>'
-  security:
-    keycloak:
-      json: '{
-               "realm": "webflix-realm",
-               "bearer-only": true,
-               "auth-server-url": "http://localhost:8082/auth/",
-               "ssl-required": "external",
-               "resource": "webflix-api",
-               "confidential-port": 0
-             }'
 rest-config:
   maintenance-mode: false
   broken: false

@@ -58,3 +58,9 @@ kubectl get pods
 kubectl logs MY_POD
 kubectl delete pod MY_POD
 ```
+
+## Logging 
+
+```
+marker.name: ENTRY or marker.name: EXIT
+```

@@ -4,9 +4,12 @@ import com.kumuluz.ee.common.config.EeConfig;
 import com.kumuluz.ee.common.runtime.EeRuntime;
 import com.kumuluz.ee.configuration.utils.ConfigurationUtil;
 import com.kumuluz.ee.logs.cdi.Log;
+import com.webflix.webflix.services.beans.LogTracerBean;
+import com.webflix.webflix.services.beans.VideoMetadataBean;
 import org.apache.logging.log4j.CloseableThreadContext;
 
 import javax.annotation.Priority;
+import javax.inject.Inject;
 import javax.interceptor.AroundInvoke;
 import javax.interceptor.Interceptor;
 import javax.interceptor.InvocationContext;
@@ -16,6 +19,12 @@ import java.util.HashMap;
 @Interceptor
 @Priority(Interceptor.Priority.PLATFORM_BEFORE)
 public class LogInterceptor {
+
+	@Inject
+	VideoMetadataBean videoMetadataBean;
+
+	@Inject
+	LogTracerBean logTracerBean;
 
 	@AroundInvoke
 	public Object logMethodEntryAndExit(InvocationContext context) throws Exception {
@@ -29,8 +38,7 @@ public class LogInterceptor {
 		settings.put("applicationVersion", EeConfig.getInstance().getVersion());
 		settings.put("uniqueInstanceId", EeRuntime.getInstance().getInstanceId());
 
-		// TODO: Add unique request ID
-		// settings.put("uniqueRequestId", "Fix me!");
+		settings.put("logTracerUuid", logTracerBean.getUuid());
 
 		try (final CloseableThreadContext.Instance ctc = CloseableThreadContext.putAll(settings)) {
 			Object result = context.proceed();
