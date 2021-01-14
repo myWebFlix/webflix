@@ -43,8 +43,8 @@ kumuluzee:
                           <Console name="console" target="SYSTEM_OUT">
                               <PatternLayout pattern="%d %p %marker %m %X %ex %n"/>
                           </Console>
-                          <Socket name="logstash" host="b8984ee4-2843-4b14-8436-aa7825515a40-ls.logit.io"
-                          port="10033" protocol="udp">
+                          <Socket name="logstash" host="7c6b0d90-1d93-479b-afd2-2192236ca571-ls.logit.io"
+                          port="10627" protocol="udp">
                               <JSONLayout complete="false" compact="true" eventEol="true" charset="UTF-8" properties="true"/>
                           </Socket>
                       </Appenders>
